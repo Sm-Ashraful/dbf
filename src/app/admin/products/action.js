@@ -1,5 +1,6 @@
 "use server";
 
+import dbConnect from "@/app/lib/db";
 import Product from "./modals/product";
 
 const addProduct = async (product) => {
@@ -30,8 +31,9 @@ const addProduct = async (product) => {
 };
 
 const getProducts = async () => {
-  const products = await Product.find({});
-
+  await dbConnect();
+  const products = await Product.find();
+  console.log("Prouct response: ", products);
   return products;
 };
 

@@ -6,6 +6,7 @@ import { getProducts } from "../admin/products/action";
 const NewArrival = async () => {
   const sizes = ["M", "L", "XL", "XXL"];
   const products = await getProducts();
+  console.log("OridytL ", products);
   return (
     <div className="px-4 mb-5">
       <div className="flex flex-col items-center justify-center pb-[30px]">
@@ -13,16 +14,17 @@ const NewArrival = async () => {
         <p className="text-sm">Browse the collection of top products</p>
       </div>
       <div className="grid  md:grid-cols-2 xl:grid-cols-4">
-        {products.map((product) => (
-          <ProductCard
-            key={product._id}
-            productId={product._id}
-            name={product.name}
-            price={product.price}
-            img={product.mainImage}
-            sizes={sizes}
-          />
-        ))}
+        {products &&
+          products?.map((product) => (
+            <ProductCard
+              key={product._id}
+              productId={product._id}
+              name={product.name}
+              price={product.price}
+              img={product.mainImage}
+              sizes={sizes}
+            />
+          ))}
       </div>
       <Link
         href={"/"}

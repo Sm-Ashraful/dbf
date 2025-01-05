@@ -1,9 +1,6 @@
-// /src/app/lib/db.js
-
 import mongoose from "mongoose";
 
-const MONGODB_URI =
-  "mongodb+srv://smashrafuldev:Z3ryxQr3bdPF0VKW@cluster0.ojc88.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
   throw new Error(
@@ -19,8 +16,9 @@ if (!cached) {
 
 async function dbConnect() {
   if (cached.conn) {
-    return cached.conn;
+    return cached.conn; // Return the cached connection if it exists
   }
+
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
@@ -30,14 +28,15 @@ async function dbConnect() {
       return mongoose;
     });
   }
+
   try {
-    cached.conn = await cached.promise;
+    cached.conn = await cached.promise; // Await the connection promise
   } catch (e) {
-    cached.promise = null;
-    throw e;
+    cached.promise = null; // Reset the promise on error
+    throw e; // Rethrow the error
   }
 
-  return cached.conn;
+  return cached.conn; // Return the connection
 }
 
 export default dbConnect;
