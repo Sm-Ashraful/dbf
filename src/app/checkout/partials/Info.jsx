@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import AddressForm from "./AddressForm";
 
-const Info = ({ shippingAddress, setShippingAddress }) => {
+const Info = ({ shippingAddress, setShippingAddress, setShippingValue }) => {
   const [isShippingChecked, setIsShippingChecked] = useState(true);
 
   const handleCheckboxChange = (event) => {
@@ -43,6 +43,7 @@ const Info = ({ shippingAddress, setShippingAddress }) => {
           <AddressForm
             setAddressInfo={setShippingAddress}
             shippingAddress={shippingAddress}
+            setShippingValue={setShippingValue}
           />
         </div>
 

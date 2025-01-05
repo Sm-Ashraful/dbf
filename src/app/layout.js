@@ -1,15 +1,20 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import "./font/ClashDisplay_Complete/Fonts/WEB/css/clash-display.css";
 import GlobalProvider from "./Provider";
+import Navbar from "./components/Navbar";
+import { Toaster } from "react-hot-toast";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+export const classDisplayVariable = localFont({
+  src: "./font/ClashDisplay-Variable.woff",
+  variable: "--font-classDisplay",
+  weight: "900",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const classDisplayRegular = localFont({
+  src: "./font/ClashDisplay-Regular.woff",
+  variable: "--font-classDisplayRegular",
+  weight: "400",
 });
 
 export const metadata = {
@@ -21,9 +26,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${classDisplayVariable.variable} ${classDisplayRegular.variable}`}
       >
-        <GlobalProvider>{children}</GlobalProvider>
+        <GlobalProvider>
+          <Navbar />
+          {children}
+          <Toaster position="top-center" reverseOrder={false} />
+        </GlobalProvider>
       </body>
     </html>
   );

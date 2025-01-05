@@ -29,4 +29,18 @@ const addProduct = async (product) => {
   return newProduct.save();
 };
 
-export { addProduct };
+const getProducts = async () => {
+  const products = await Product.find({});
+
+  return products;
+};
+
+const getSingleProduct = async (id) => {
+  const product = await Product.findById(id).lean(); // Converts the document to a plain object
+  if (!product) {
+    throw new Error("Product not found");
+  }
+  return product; // Returns a plain object
+};
+
+export { addProduct, getProducts, getSingleProduct };

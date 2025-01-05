@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { allDistict, upazilasOf } from "@bangladeshi/bangladesh-address";
 
-const AddressForm = ({ setAddressInfo, shippingAddress }) => {
+const AddressForm = ({ setAddressInfo, shippingAddress, setShippingValue }) => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedUpazila, setSelectedUpazila] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -16,6 +16,20 @@ const AddressForm = ({ setAddressInfo, shippingAddress }) => {
     }
   }, [isSubmitted]);
 
+  const handleDistrictChange = (e) => {
+    const district = e.target.value;
+    setSelectedDistrict(district);
+    setSelectedUpazila("");
+    setAddressInfo({ ...shippingAddress, city: district });
+
+    // Set shipping value based on selected district
+    if (district === "Dhaka") {
+      setShippingValue(60);
+    } else {
+      setShippingValue(100);
+    }
+  };
+
   return (
     <div className="">
       <form className="grid grid-cols-6 mt-6 gap-2">
@@ -25,6 +39,7 @@ const AddressForm = ({ setAddressInfo, shippingAddress }) => {
           <input
             type="text"
             value={shippingAddress.customer}
+            required
             onChange={(e) =>
               setAddressInfo({
                 ...shippingAddress,
@@ -42,6 +57,7 @@ const AddressForm = ({ setAddressInfo, shippingAddress }) => {
           <input
             type="text"
             value={shippingAddress.address}
+            required
             onChange={(e) =>
               setAddressInfo({ ...shippingAddress, address: e.target.value })
             }
@@ -56,13 +72,9 @@ const AddressForm = ({ setAddressInfo, shippingAddress }) => {
             City (শহরের নাম)
           </label>
           <select
+            required
             value={selectedDistrict}
-            onChange={(e) => {
-              const district = e.target.value;
-              setSelectedDistrict(district);
-              setSelectedUpazila("");
-              setAddressInfo({ ...shippingAddress, city: district });
-            }}
+            onChange={handleDistrictChange} // Use the new handler
             className="bg-white pl-3 py-2 outline-none text-sm lg:text-base flex-1 w-full border shadow-sm focus:outline-none focus:ring-blue focus:border-blue"
           >
             <option value="">Select a City</option>
@@ -80,6 +92,7 @@ const AddressForm = ({ setAddressInfo, shippingAddress }) => {
             Police Station
           </label>
           <select
+            required
             value={selectedUpazila}
             onChange={(e) => {
               const upazila = e.target.value;
@@ -105,6 +118,7 @@ const AddressForm = ({ setAddressInfo, shippingAddress }) => {
           </label>
           <input
             type="text"
+            required
             value={shippingAddress.phone}
             onChange={(e) =>
               setAddressInfo({ ...shippingAddress, phone: e.target.value })
@@ -116,7 +130,7 @@ const AddressForm = ({ setAddressInfo, shippingAddress }) => {
         {/* Email */}
         <div className="col-span-6 md:col-span-3">
           <label className="block text-sm font-medium text-gray-700">
-            Email
+            Email (Optional)
           </label>
           <input
             type="email"

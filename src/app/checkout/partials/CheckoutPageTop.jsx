@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import Info from "./Info";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 const CheckoutPageLeftTop = ({
   handleOrder,
   shippingAddress,
   setShippingAddress,
+  setShippingValue,
 }) => {
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [orderItems, setOrderItems] = useState(null);
@@ -19,18 +21,18 @@ const CheckoutPageLeftTop = ({
   const handleOrderButtonClick = (event) => {
     event.preventDefault();
 
+    if (
+      !shippingAddress.customer ||
+      !shippingAddress.address ||
+      !shippingAddress.city ||
+      !shippingAddress.phone
+    ) {
+      toast.error("All field are required!");
+    }
+
     console.log("Shipping address: ", shippingAddress);
     const orderObj = {
-      ...shippingAddress,
-      orderAmount: 1490,
-      shippingAmount: 100,
-      quantity: 1,
-      shippingStatus: "Pending",
-      items: [
-        {
-          product: "6778fcfec93f8d25ad28c61e",
-        },
-      ],
+      info: { ...shippingAddress },
     };
 
     if (orderObj) {
@@ -46,6 +48,7 @@ const CheckoutPageLeftTop = ({
           <Info
             shippingAddress={shippingAddress}
             setShippingAddress={setShippingAddress}
+            setShippingValue={setShippingValue}
           />
         </div>
       </div>

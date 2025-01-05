@@ -14,6 +14,13 @@ const ProductInfo = ({
   setSizeSelect,
   handleAddToCartItems,
 }) => {
+  const sizeDetails = [
+    "M : chest 38 inch length 26 inch",
+    "L : chest 40 inch length 27 inch",
+    "XL : chest 42 inch length 28 inch",
+    "XXL : chest 44 inch length 29 inch ",
+  ];
+
   return (
     <>
       <div className="text-[34px] font-semibold mb-2 leading-tight capitalize">
@@ -39,7 +46,7 @@ const ProductInfo = ({
           <div className="text-md font-semibold">Select Size</div>
         </div>
         <div className="flex gap-2 items-center">
-          {product.sizes[0].name.map((size, idx) => (
+          {product.sizes.map((size, idx) => (
             <button
               key={idx}
               onClick={() => setSizeSelect(size)}
@@ -54,12 +61,11 @@ const ProductInfo = ({
           ))}
         </div>
         <div className="mt-4">
-          <ul className="li">
-            {product.sizes[0].details.map((detail, idx) => {
-              console.log("proudct size details: ", detail);
+          <ul className="list-disc ml-4">
+            {sizeDetails.map((detail, idx) => {
               return (
                 <li
-                  className={` mt-3 py-2 rounded-full transition-all  capitalize
+                  className={` py-2 rounded-full transition-all  capitalize
                `}
                 >
                   {detail}

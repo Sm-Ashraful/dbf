@@ -8,11 +8,7 @@ import mongoose from "mongoose";
 const orderSubmit = async (orderData) => {
   try {
     const {
-      customer,
-      phone,
-      address,
-      email,
-      policeStation,
+      info,
       orderAmount,
       shippingAmount,
       quantity,
@@ -23,10 +19,7 @@ const orderSubmit = async (orderData) => {
     console.log("Order data: ", orderData);
 
     if (
-      !customer ||
-      !phone ||
-      !address ||
-      !policeStation ||
+      !info ||
       !orderAmount ||
       !shippingAmount ||
       !quantity ||
@@ -37,15 +30,18 @@ const orderSubmit = async (orderData) => {
       throw new Error("All fields are required and items must be provided.");
     }
 
-    const newInfo = new Info({
-      customer,
-      phone,
-      address,
-      email,
-      policeStation,
-    });
+    const newInfo = new Info({ ...info });
 
     const savedInfo = await newInfo.save(); // Save the customer info
+
+    const processedItems = items.map((item) => {
+      if (!item._id) {
+        throw new Error("Each item must have a valid product ID.");
+      }
+      return {
+        product: new mongoose.Types.ObjectId(item._id), // Convert item._id to ObjectId
+      };
+    });
 
     // Create the Order document and reference the Info document
     const newOrder = new Order({
@@ -53,7 +49,7 @@ const orderSubmit = async (orderData) => {
       shippingAmount,
       quantity,
       shippingStatus,
-      items,
+      items: processedItems, // Use processed items
       info: savedInfo._id, // Store the Info document's ObjectId
     });
 
