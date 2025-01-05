@@ -51,11 +51,19 @@ export default function Checkout() {
     };
 
     try {
-      const response = await orderSubmit(finalData);
+      const response = await fetch("/api/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(finalData),
+      });
 
-      console.log("Order response", response);
-      if (response.success) {
-        toast.success(response.message);
+      const data = await response.json();
+      console.log("Order response", data);
+
+      if (response.ok) {
+        toast.success(data.message);
         setShippingAddress({
           customer: "",
           address: "",
@@ -67,10 +75,12 @@ export default function Checkout() {
         setShippingValue(0);
         dispatch(clearProducts());
         router.push("/thanks");
+      } else {
+        toast.error(data.message || "Failed to submit the order.");
       }
     } catch (error) {
-      console.log("This error for submitting order: ", error);
-      toast.error("Something went wrong. Please try letter!");
+      console.error("Error submitting order:", error);
+      toast.error("Something went wrong. Please try again!");
     }
   };
 

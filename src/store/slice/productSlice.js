@@ -9,10 +9,11 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     addProduct: (state, action) => {
-      state.push(action.payload); // action.payload should be a serializable object
+      state.products.push(action.payload); // action.payload should be a serializable object
     },
     removeProduct: (state, action) => {
-      return state.filter((product) => product.id !== action.payload.id); // action.payload should be serializable
+      console.log("Action payload: ", action.payload.id);
+      state.products.filter((product) => product._id !== action.payload.id); // action.payload should be serializable
     },
     clearProducts: (state) => {
       state.products = [];

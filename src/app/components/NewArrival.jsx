@@ -1,12 +1,26 @@
+"use client";
 import ProductCard from "@/__shared/ProductCard";
 import Link from "next/link";
-import React from "react";
-import { getProducts } from "../admin/products/action";
+import React, { useEffect, useState } from "react";
 
-const NewArrival = async () => {
+const NewArrival = () => {
   const sizes = ["M", "L", "XL", "XXL"];
-  const products = await getProducts();
-  console.log("OridytL ", products);
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const response = await fetch(`/api/product`, {
+        method: "GET",
+      });
+      const data = await response.json();
+
+      setProducts(data.data);
+    }
+    fetchProducts();
+  }, []);
+
+  if (!products) return;
+
   return (
     <div className="px-4 mb-5">
       <div className="flex flex-col items-center justify-center pb-[30px]">

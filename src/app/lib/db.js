@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+// const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
-}
+// if (!MONGODB_URI) {
+//   throw new Error(
+//     "Please define the MONGODB_URI environment variable inside .env.local"
+//   );
+// }
 
 let cached = global.mongoose;
 
@@ -23,10 +23,15 @@ async function dbConnect() {
     const opts = {
       bufferCommands: false,
     };
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log("Db connected");
-      return mongoose;
-    });
+    cached.promise = mongoose
+      .connect(
+        "mongodb+srv://smashrafuldev:Z3ryxQr3bdPF0VKW@cluster0.ojc88.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+        opts
+      )
+      .then((mongoose) => {
+        console.log("Db connected");
+        return mongoose;
+      });
   }
 
   try {

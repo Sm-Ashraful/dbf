@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { GiHamburgerMenu } from "react-icons/gi";
 import Hero from "./components/Hero";
 import TopCollection from "./components/TopCollection";
 import NewArrival from "./components/NewArrival";

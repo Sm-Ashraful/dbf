@@ -1,14 +1,24 @@
+"use client";
 import ProductCard from "@/__shared/ProductCard";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getProducts } from "../admin/products/action";
 
-const TopCollection = async () => {
+const TopCollection = () => {
   const sizes = ["M", "L", "XL", "XXL"];
+  const [products, setProducts] = useState(null);
 
-  const products = await getProducts();
+  useEffect(() => {
+    async function fetchProducts() {
+      const response = await fetch(`/api/product`, {
+        method: "GET", // Specify the HTTP method
+      });
+      const data = await response.json();
 
-  console.log("Products: ", products);
+      setProducts(data.data);
+    }
+    fetchProducts();
+  }, []);
 
   return (
     <div className="px-4 mb-5">

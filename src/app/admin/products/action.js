@@ -1,10 +1,7 @@
-"use server";
-
 import dbConnect from "@/app/lib/db";
 import Product from "./modals/product";
 
 const addProduct = async (product) => {
-  // Extract data from the `product` object
   const name = product.get("name");
   const mainImage = product.get("mainImage");
   const sugImages = product.get("sugImages");
@@ -42,7 +39,7 @@ const getSingleProduct = async (id) => {
   if (!product) {
     throw new Error("Product not found");
   }
-  return product; // Returns a plain object
+  return product;
 };
 
 export { addProduct, getProducts, getSingleProduct };

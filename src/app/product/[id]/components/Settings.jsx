@@ -21,6 +21,8 @@ export default function ProductDetails({ product }) {
       selectedSize: sizeSelect,
       quantity: itemCount,
     };
+
+    console.log("Card products: ", cartProducts);
     dispatch(addProduct(cartProducts));
     router.push("/checkout");
   };

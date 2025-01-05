@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
@@ -6,12 +7,12 @@ const Navbar = () => {
   return (
     <header className=" w-full bg-yellow py-2 px-2 ">
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-1.5">
+        <Link href="/" className="flex items-center gap-1.5">
           <Image src="/img/dbf.png" alt="Logo" width={46} height={46} />
           <p className="leading-4 -ml-3 font-thin text-transparent bold-f bg-clip-text bg-gradient-to-r from-white  to-primary">
             DB Fashion
           </p>
-        </div>
+        </Link>
         <div className="flex gap-4">
           <p>
             <svg

@@ -1,15 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GiConsoleController } from "react-icons/gi";
 import product from "@/app/admin/products/modals/product";
+import { removeProduct } from "@/store/slice/productSlice";
 
 const Invoice = ({ shippingValue, products }) => {
+  const dispatch = useDispatch();
   const subtotal = products.reduce(
     (acc, product) => acc + product.price * product.quantity,
     0
   );
+
+  console.log("products: ");
+
+  const handleRemoveProduct = (product) => {
+    dispatch(removeProduct({ id: product._id }));
+  };
 
   return (
     <div className="w-full bg-baseBackground p-4 mt-3 flex flex-col gap-3">
@@ -39,7 +47,9 @@ const Invoice = ({ shippingValue, products }) => {
                   {product.quantity}
                 </p>
               </div>
-              <p className="text-sm flex-1">{product?.name}</p>
+              <div className="text-sm flex-1">
+                <p>{product?.name}</p>
+              </div>
               <p className="text-sm">{product?.price}Tk</p>
             </div>
           );
