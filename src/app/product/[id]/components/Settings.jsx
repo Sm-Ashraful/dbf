@@ -29,7 +29,6 @@ export default function ProductDetails({ product }) {
   };
 
   const subImageUrls = product?.subImages?.map((image) => image);
-  console.log("Sub images: ", subImageUrls);
   const allImageUrls = [product.mainImage, ...subImageUrls];
 
   return (

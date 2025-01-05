@@ -9,14 +9,10 @@ export default function ProductCatalogue() {
   const id = params.id;
   const [product, setProduct] = useState(null);
 
-  console.log("product id: ", id);
-
   useEffect(() => {
     async function fetchProduct() {
       if (id) {
         const response = await getSingleProduct(id);
-
-        console.log("Prodcut repsone: ", response);
         setProduct(response);
       }
     }
@@ -24,8 +20,6 @@ export default function ProductCatalogue() {
   }, [id]);
 
   if (!product) return;
-
-  console.log("Product page: ", product);
 
   return (
     <div className="bg-white px-2 md:px-[7.5%] xl:px-[12.5%] w-[100vw] overflow-hidden">
