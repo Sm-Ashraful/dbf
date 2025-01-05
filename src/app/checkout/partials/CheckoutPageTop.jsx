@@ -24,7 +24,6 @@ const CheckoutPageLeftTop = ({
     if (
       !shippingAddress.customer ||
       !shippingAddress.address ||
-      !shippingAddress.city ||
       !shippingAddress.phone
     ) {
       toast.error("All field are required!");

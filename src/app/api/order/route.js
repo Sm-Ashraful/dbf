@@ -23,7 +23,6 @@ export async function POST(request) {
     const body = await request.json();
     console.log("Received order data:", body);
 
-    // Call the orderSubmit action
     const response = await orderSubmit(body);
 
     // Check the response from orderSubmit

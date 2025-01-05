@@ -72,7 +72,6 @@ const AddressForm = ({ setAddressInfo, shippingAddress, setShippingValue }) => {
             City (শহরের নাম)
           </label>
           <select
-            required
             value={selectedDistrict}
             onChange={handleDistrictChange} // Use the new handler
             className="bg-white pl-3 py-2 outline-none text-sm lg:text-base flex-1 w-full border shadow-sm focus:outline-none focus:ring-blue focus:border-blue"
@@ -92,7 +91,6 @@ const AddressForm = ({ setAddressInfo, shippingAddress, setShippingValue }) => {
             Police Station
           </label>
           <select
-            required
             value={selectedUpazila}
             onChange={(e) => {
               const upazila = e.target.value;

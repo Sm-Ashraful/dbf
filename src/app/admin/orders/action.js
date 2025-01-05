@@ -18,18 +18,6 @@ const orderSubmit = async (orderData) => {
 
     console.log("Order data: ", orderData);
 
-    if (
-      !info ||
-      !orderAmount ||
-      !shippingAmount ||
-      !quantity ||
-      !items ||
-      !Array.isArray(items) ||
-      items.length === 0
-    ) {
-      throw new Error("All fields are required and items must be provided.");
-    }
-
     const newInfo = new Info({ ...info });
 
     const savedInfo = await newInfo.save(); // Save the customer info

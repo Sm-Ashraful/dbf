@@ -6,7 +6,8 @@ const infoSchema = new mongoose.Schema(
     customer: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true },
-    policeStation: { type: String, required: true },
+    city: { type: String },
+    policeStation: { type: String },
     email: { type: String },
   },
   { timestamps: true }
