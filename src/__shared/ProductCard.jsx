@@ -3,8 +3,15 @@ import Link from "next/link";
 import React from "react";
 
 const ProductCard = ({ img, name, price, sizes, productId }) => {
+  const handleOrderNowClick = (productId) => {
+    if (window.fbq) {
+      fbq("track", "InitiateCheckout", { productId });
+    }
+    // Redirect to the product page
+    window.location.href = `/product/${productId}`;
+  };
   return (
-    <Link href={`/product/${productId}`} className="w-full ">
+    <div className="w-full ">
       <Image src={img} alt={name} width={800} height={800} />
       <div className="space-y-3 pt-5">
         <h4 className="bold-f text-lg">{name}</h4>
@@ -25,7 +32,7 @@ const ProductCard = ({ img, name, price, sizes, productId }) => {
           Buy Now
         </button>
       </div>
-    </Link>
+    </div>
   );
 };
 
