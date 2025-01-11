@@ -72,7 +72,7 @@ const CheckoutPageLeftTop = ({
       <button
         onClick={handleOrderButtonClick}
         type="submit"
-        className={`bg-black/90 text-white px-4 py-3 mt-5 w-full text-sm sm:text-[1.2rem]`}
+        className={`bg-[#c3a386] rounded-full text-white px-4 py-3 my-5 w-full text-[1.2rem]`}
       >
         Order Now
       </button>
