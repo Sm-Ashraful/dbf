@@ -1,6 +1,7 @@
 "use state";
 import React, { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
+import Box from "@mui/material/Box";
 import Counter from "./Counter";
 import { useProductContext } from "@/context/ProductContext";
 import { useRouter } from "next/navigation";
@@ -33,6 +34,10 @@ const ProductInfo = ({
       <div className="text-sm mb-5">
         {product.description}
         ...
+      </div>
+      <div className="text-sm mb-5">
+        For any query please #call{" "}
+        <span className="text-primary">01608157519</span>(WhatsApp)
       </div>
       <div className="mb-10">
         <div className="flex mb-2">
@@ -80,7 +85,40 @@ const ProductInfo = ({
           </ul>
         </div>
       </div>
+      <div className="mb-10">
+        <div className="flex mb-2">
+          <div className="text-md font-semibold">Product Details</div>
+        </div>
+        <div className="flex gap-2  flex-col">
+          <Box className="flex gap-2 items-center">
+            <p className="text-sm font-semibold text-gray-600">Fabric:</p>
+            <p className="text-sm text-gray-700">{product.details[0]}</p>
+          </Box>
 
+          {/* Shipping */}
+          <Box className="flex gap-2 items-center">
+            <p className="text-sm font-semibold text-gray-600">Shipping:</p>
+            <p className="text-sm text-gray-700">Ships within 1 to 3 days.</p>
+          </Box>
+        </div>
+        <div className="mt-4">
+          <ul className="list-disc ml-4">
+            {product.sizeDetails
+              ? product?.sizeDetails.map((detail, idx) => {
+                  return (
+                    <li
+                      key={idx}
+                      className={` py-2 rounded-full transition-all  capitalize
+               `}
+                    >
+                      {detail}
+                    </li>
+                  );
+                })
+              : null}
+          </ul>
+        </div>
+      </div>
       <div className="mb-10">
         <div className="flex mb-2">
           <div className="text-md font-semibold">Select Quantity</div>
