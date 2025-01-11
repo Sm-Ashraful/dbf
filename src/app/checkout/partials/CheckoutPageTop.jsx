@@ -44,11 +44,7 @@ const CheckoutPageLeftTop = ({
       <div className="overflow-hidden">
         <div>
           <h4 className="">Delivery Address</h4>
-          <Info
-            shippingAddress={shippingAddress}
-            setShippingAddress={setShippingAddress}
-            setShippingValue={setShippingValue}
-          />
+          <Info shippingAddress={shippingAddress} />
         </div>
       </div>
       <div className="mt-8">

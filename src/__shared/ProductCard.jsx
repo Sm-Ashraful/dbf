@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 const ProductCard = ({ img, name, price, sizes, productId }) => {
-  const handleOrderNowClick = (productId) => {
+  const handleOrderNowClick = () => {
     if (window.fbq) {
       fbq("track", "InitiateCheckout", { productId });
     }
@@ -11,7 +11,7 @@ const ProductCard = ({ img, name, price, sizes, productId }) => {
     window.location.href = `/product/${productId}`;
   };
   return (
-    <div className="w-full ">
+    <div className="w-full " onClick={handleOrderNowClick}>
       <Image src={img} alt={name} width={800} height={800} />
       <div className="space-y-3 pt-5">
         <h4 className="bold-f text-lg">{name}</h4>

@@ -14,13 +14,6 @@ const ProductInfo = ({
   setSizeSelect,
   handleAddToCartItems,
 }) => {
-  const sizeDetails = [
-    "M : chest 38 inch length 26 inch",
-    "L : chest 40 inch length 27 inch",
-    "XL : chest 42 inch length 28 inch",
-    "XXL : chest 44 inch length 29 inch ",
-  ];
-
   return (
     <>
       <div className="text-[34px] font-semibold mb-2 leading-tight capitalize">
@@ -46,32 +39,44 @@ const ProductInfo = ({
           <div className="text-md font-semibold">Select Size</div>
         </div>
         <div className="flex gap-2 items-center">
-          {product.sizes.map((size, idx) => (
+          {product.sizes.length > 1 ? (
+            product.sizes.map((size, idx) => (
+              <button
+                key={idx}
+                onClick={() => setSizeSelect(size)}
+                className={`flex items-center w-[80px] justify-around mt-3 py-2 rounded-full transition-all ${
+                  sizeSelect === size
+                    ? "bg-primary text-white"
+                    : "bg-black/10 text-black"
+                }`}
+              >
+                <p>{size}</p>
+              </button>
+            ))
+          ) : (
             <button
-              key={idx}
-              onClick={() => setSizeSelect(size)}
-              className={`flex items-center w-[80px] justify-around mt-3 py-2 rounded-full transition-all ${
-                sizeSelect === size
-                  ? "bg-primary text-white"
-                  : "bg-black/10 text-black"
-              }`}
+              onClick={() => setSizeSelect(product.sizes[0])}
+              className={`flex items-center w-fit px-3 justify-around mt-3 py-2  transition-all  text-black`}
             >
-              <p>{size}</p>
+              <p>{product.sizes[0]}</p>
             </button>
-          ))}
+          )}
         </div>
         <div className="mt-4">
           <ul className="list-disc ml-4">
-            {sizeDetails.map((detail, idx) => {
-              return (
-                <li
-                  className={` py-2 rounded-full transition-all  capitalize
+            {product.sizeDetails
+              ? product?.sizeDetails.map((detail, idx) => {
+                  return (
+                    <li
+                      key={idx}
+                      className={` py-2 rounded-full transition-all  capitalize
                `}
-                >
-                  {detail}
-                </li>
-              );
-            })}
+                    >
+                      {detail}
+                    </li>
+                  );
+                })
+              : null}
           </ul>
         </div>
       </div>

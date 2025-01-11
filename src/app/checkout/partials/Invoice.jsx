@@ -6,8 +6,12 @@ import { GiConsoleController } from "react-icons/gi";
 import product from "@/app/admin/products/modals/product";
 import { removeProduct } from "@/store/slice/productSlice";
 
-const Invoice = ({ shippingValue, products }) => {
+const Invoice = ({ shippingValue, products, location, setLocation }) => {
   const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    setLocation(e.target.value);
+  };
   const subtotal = products.reduce(
     (acc, product) => acc + product.price * product.quantity,
     0
@@ -77,6 +81,42 @@ const Invoice = ({ shippingValue, products }) => {
       <div className="flex justify-between items-center font-bold">
         <p>Total </p>
         <p>{subtotal + shippingValue} TK</p>
+      </div>
+
+      <div>
+        <p className="text-xl text-red-400">
+          Please Select the location for shipping
+        </p>
+      </div>
+      <div className="w-full  flex justify-between py-4">
+        <div className="flex gap-5">
+          <div className="flex flex-col items-center">
+            <p>
+              <input
+                type="radio"
+                value="inside"
+                name="location"
+                checked={location === "inside"}
+                onChange={handleChange}
+                className="mr-2 text-black"
+              />
+            </p>
+            <label className="font-semibold">Inside Dhaka</label>
+          </div>
+          <div className="flex flex-col items-center">
+            <p>
+              <input
+                type="radio"
+                value="outside"
+                name="location"
+                checked={location === "outside"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+            </p>
+            <label className="font-semibold">Outside Dhaka</label>
+          </div>
+        </div>
       </div>
     </div>
   );

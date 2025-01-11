@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 import CheckoutHeader from "./partials/CheckoutHeader";
@@ -22,12 +22,19 @@ export default function Checkout() {
   });
   const [shippingValue, setShippingValue] = useState(0);
   const products = useSelector((state) => state.products);
+  const [location, setLocation] = useState("inside");
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // const { products } = useSelector((state) => state.products);
+  useEffect(() => {
+    console.log("Location: ", location);
 
-  // console.log("Products : ", products);
+    if (location === "inside") {
+      setShippingValue(60);
+    } else {
+      setShippingValue(100);
+    }
+  }, [location]);
 
   const subtotal = products.products.reduce(
     (acc, product) => acc + product.price * product.quantity,
@@ -95,13 +102,14 @@ export default function Checkout() {
               handleOrder={handleOrder}
               shippingAddress={shippingAddress}
               setShippingAddress={setShippingAddress}
-              setShippingValue={setShippingValue}
             />
           </div>
           <div className="sm:col-span-2 order-1 sm:order-2">
             <Invoice
               shippingValue={shippingValue}
               products={products.products}
+              location={location}
+              setLocation={setLocation}
             />
           </div>
         </div>

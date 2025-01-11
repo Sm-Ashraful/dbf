@@ -1,35 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { allDistict, upazilasOf } from "@bangladeshi/bangladesh-address";
+import React from "react";
 
-const AddressForm = ({ setAddressInfo, shippingAddress, setShippingValue }) => {
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [selectedUpazila, setSelectedUpazila] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const districts = allDistict();
-  const upazilas = selectedDistrict ? upazilasOf(selectedDistrict) : [];
-
-  useEffect(() => {
-    if (isSubmitted) {
-      setIsSubmitted(false); // Reset the submission state after submission
-    }
-  }, [isSubmitted]);
-
-  const handleDistrictChange = (e) => {
-    const district = e.target.value;
-    setSelectedDistrict(district);
-    setSelectedUpazila("");
-    setAddressInfo({ ...shippingAddress, city: district });
-
-    // Set shipping value based on selected district
-    if (district === "Dhaka") {
-      setShippingValue(60);
-    } else {
-      setShippingValue(100);
-    }
-  };
-
+const AddressForm = ({ setAddressInfo, shippingAddress }) => {
   return (
     <div className="">
       <form className="grid grid-cols-6 mt-6 gap-2">
@@ -46,7 +18,7 @@ const AddressForm = ({ setAddressInfo, shippingAddress, setShippingValue }) => {
                 customer: e.target.value,
               })
             }
-            placeholder=""
+            placeholder="Your Full Name"
             className="bg-white pl-3 py-2 outline-none text-sm lg:text-base flex-1 w-full border shadow-sm focus:outline-none focus:ring-blue focus:border-blue sm:text-sm"
           />
         </div>
@@ -61,52 +33,46 @@ const AddressForm = ({ setAddressInfo, shippingAddress, setShippingValue }) => {
             onChange={(e) =>
               setAddressInfo({ ...shippingAddress, address: e.target.value })
             }
-            placeholder=""
+            placeholder="Your Address"
             className="bg-white pl-3 py-2 outline-none text-sm lg:text-base flex-1 w-full border shadow-sm focus:outline-none focus:ring-blue focus:border-blue sm:text-sm"
           />
         </div>
 
-        {/* City (District) */}
+        {/* City */}
         <div className="col-span-6 md:col-span-3">
           <label className="block text-sm font-medium text-gray-700">
-            City (শহরের নাম)
+            City
           </label>
-          <select
-            value={selectedDistrict}
-            onChange={handleDistrictChange} // Use the new handler
+          <input
+            type="text"
+            value={shippingAddress.city}
+            required
+            onChange={(e) =>
+              setAddressInfo({ ...shippingAddress, city: e.target.value })
+            }
+            placeholder="Your City"
             className="bg-white pl-3 py-2 outline-none text-sm lg:text-base flex-1 w-full border shadow-sm focus:outline-none focus:ring-blue focus:border-blue"
-          >
-            <option value="">Select a City</option>
-            {districts.map((district) => (
-              <option key={district} value={district}>
-                {district}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
-        {/* Police Station (Upazila) */}
+        {/* Police Station */}
         <div className="col-span-6 md:col-span-3">
           <label className="block text-sm font-medium text-gray-700">
-            Police Station
+            Police Station (Thana)
           </label>
-          <select
-            value={selectedUpazila}
-            onChange={(e) => {
-              const upazila = e.target.value;
-              setSelectedUpazila(upazila);
-              setAddressInfo({ ...shippingAddress, policeStation: upazila });
-            }}
+          <input
+            type="text"
+            value={shippingAddress.policeStation}
+            required
+            onChange={(e) =>
+              setAddressInfo({
+                ...shippingAddress,
+                policeStation: e.target.value,
+              })
+            }
+            placeholder="Your Police Station"
             className="bg-white pl-3 py-2 outline-none text-sm lg:text-base flex-1 w-full border shadow-sm focus:outline-none focus:ring-blue focus:border-blue"
-            disabled={!selectedDistrict} // Disable if no district selected
-          >
-            <option value="">Select a Police Station</option>
-            {upazilas.map((upazila) => (
-              <option key={upazila.upazila} value={upazila.upazila}>
-                {upazila.upazila}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
         {/* Phone Number */}
@@ -121,6 +87,7 @@ const AddressForm = ({ setAddressInfo, shippingAddress, setShippingValue }) => {
             onChange={(e) =>
               setAddressInfo({ ...shippingAddress, phone: e.target.value })
             }
+            placeholder="Your Phone Number"
             className="bg-white pl-3 py-2 outline-none text-sm lg:text-base flex-1 w-full border shadow-sm focus:outline-none focus:ring-blue focus:border-blue sm:text-sm"
           />
         </div>

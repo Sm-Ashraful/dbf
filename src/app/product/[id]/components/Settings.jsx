@@ -6,7 +6,7 @@ import ProductInfo from "@/app/components/ProductInfo";
 import ProductDetailsTab from "./Tabs";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { addProduct } from "@/store/slice/productSlice";
+import { addProduct, clearProducts } from "@/store/slice/productSlice";
 
 export default function ProductDetails({ product }) {
   const [itemCount, setItemCount] = useState(1);
@@ -16,6 +16,7 @@ export default function ProductDetails({ product }) {
   const router = useRouter();
 
   const handleAddToCartItems = () => {
+    dispatch(clearProducts());
     const cartProducts = {
       ...product,
       selectedSize: sizeSelect,
@@ -156,7 +157,7 @@ export default function ProductDetails({ product }) {
         </div>
         {/* right column end */}
       </div>
-      <ProductDetailsTab details={product.details} />
+      <ProductDetailsTab details={product.details} sizes={product.sizes} />
     </div>
   );
 }
