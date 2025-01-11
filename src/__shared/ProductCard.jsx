@@ -11,7 +11,7 @@ const ProductCard = ({ img, name, price, sizes, productId }) => {
     window.location.href = `/product/${productId}`;
   };
   return (
-    <div className="w-full " onClick={handleOrderNowClick}>
+    <div className="w-full cursor-pointer" onClick={handleOrderNowClick}>
       <Image src={img} alt={name} width={800} height={800} />
       <div className="space-y-3 pt-5">
         <h4 className="bold-f text-lg">{name}</h4>
