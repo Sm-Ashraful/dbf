@@ -10,6 +10,11 @@ import { orderSubmit } from "../admin/orders/action";
 import product from "../admin/products/modals/product";
 import toast from "react-hot-toast";
 import { clearProducts } from "@/store/slice/productSlice";
+import {
+  clearCart,
+  totalCartItemPriceSelector,
+  totalCartItemSelector,
+} from "@/store/slice/CheckoutSlice";
 
 export default function Checkout() {
   const [shippingAddress, setShippingAddress] = useState({
@@ -21,30 +26,22 @@ export default function Checkout() {
     phone: "",
   });
   const [shippingValue, setShippingValue] = useState(0);
-  const products = useSelector((state) => state.products);
+  const totalQuatity = useSelector(totalCartItemSelector);
+  const subtotal = useSelector(totalCartItemPriceSelector);
+  const products = useSelector((state) => state.checkouts.items);
   const [location, setLocation] = useState("inside");
   const dispatch = useDispatch();
   const router = useRouter();
 
-  useEffect(() => {
-    console.log("Location: ", location);
+  console.log("Location: ", subtotal, totalQuatity);
 
+  useEffect(() => {
     if (location === "inside") {
       setShippingValue(60);
     } else {
       setShippingValue(100);
     }
   }, [location]);
-
-  const subtotal = products.products.reduce(
-    (acc, product) => acc + product.price * product.quantity,
-    0
-  );
-
-  const totalQuatity = products.products.reduce(
-    (acc, product) => acc + product.quantity,
-    0
-  );
 
   const handleOrder = async (customerData) => {
     console.log("Order data click", customerData);
@@ -54,7 +51,7 @@ export default function Checkout() {
       orderAmount: subtotal,
       shippingAmount: shippingValue,
       quantity: totalQuatity,
-      items: products.products,
+      items: products,
     };
 
     try {
@@ -69,22 +66,19 @@ export default function Checkout() {
       const data = await response.json();
       console.log("Order response", data);
 
-      if (response.ok) {
-        toast.success(data.message);
-        setShippingAddress({
-          customer: "",
-          address: "",
-          city: "",
-          policeStation: "",
-          email: "",
-          phone: "",
-        });
-        setShippingValue(0);
-        dispatch(clearProducts());
-        router.push("/thanks");
-      } else {
-        toast.error(data.message || "Failed to submit the order.");
-      }
+      dispatch(clearProducts());
+      toast.success(data.message);
+      setShippingAddress({
+        customer: "",
+        address: "",
+        city: "",
+        policeStation: "",
+        email: "",
+        phone: "",
+      });
+      setShippingValue(0);
+      dispatch(clearCart());
+      router.push("/thanks");
     } catch (error) {
       console.error("Error submitting order:", error);
       toast.error("Something went wrong. Please try again!");
@@ -107,7 +101,7 @@ export default function Checkout() {
           <div className="sm:col-span-2 order-1 sm:order-2">
             <Invoice
               shippingValue={shippingValue}
-              products={products.products}
+              products={products}
               location={location}
               setLocation={setLocation}
             />

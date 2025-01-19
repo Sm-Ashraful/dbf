@@ -23,27 +23,32 @@ const orderSubmit = async (orderData) => {
     const savedInfo = await newInfo.save(); // Save the customer info
 
     const processedItems = items.map((item) => {
-      if (!item._id) {
+      if (!item.product._id) {
         throw new Error("Each item must have a valid product ID.");
       }
+
       return {
-        product: new mongoose.Types.ObjectId(item._id), // Convert item._id to ObjectId
+        product: new mongoose.Types.ObjectId(item.product._id), // Convert to ObjectId
+        selectedColor: item.selectedColor, // Ensure these fields are included
+        selectedSize: item.selectedSize,
+        quantity: item.quantity,
       };
     });
 
+    console.log("Process itme sfo: ", processedItems);
     // Create the Order document and reference the Info document
     const newOrder = new Order({
       orderAmount,
       shippingAmount,
       quantity,
       shippingStatus,
-      items: processedItems, // Use processed items
+      items: processedItems,
       info: savedInfo._id, // Store the Info document's ObjectId
     });
 
     // Save the order in the database
     const savedOrder = await newOrder.save();
-
+    console.log("Order saved: ", savedOrder);
     return {
       success: true,
       message: "Order submitted successfully!",

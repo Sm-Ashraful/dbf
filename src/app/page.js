@@ -6,7 +6,7 @@ import ShippingDetails from "./components/ShippingDetails";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-[3.125rem]">
+    <div className="flex flex-col gap-[3.125rem] items-center justify-center w-full max-w-[1440px] mx-auto">
       <Hero />
       <TopCollection />
       <NewArrival />

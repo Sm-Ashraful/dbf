@@ -5,6 +5,7 @@ const orderSchema = new mongoose.Schema(
     orderAmount: { type: Number, required: true },
     shippingAmount: { type: Number, required: true },
     quantity: { type: Number, required: true },
+
     shippingStatus: {
       type: String,
       enum: ["Pending", "Shipped", "Delivered", "Cancelled"],
@@ -16,6 +17,19 @@ const orderSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
           required: true,
+        },
+        selectedColor: {
+          type: Number,
+          required: true,
+        },
+        selectedSize: {
+          type: String,
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: 1,
         },
       },
     ],

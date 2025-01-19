@@ -5,19 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { GiConsoleController } from "react-icons/gi";
 import product from "@/app/admin/products/modals/product";
 import { removeProduct } from "@/store/slice/productSlice";
+import {
+  removeFromCart,
+  totalCartItemPriceSelector,
+} from "@/store/slice/CheckoutSlice";
 
 const Invoice = ({ shippingValue, products, location, setLocation }) => {
   const dispatch = useDispatch();
 
+  const subtotal = useSelector(totalCartItemPriceSelector);
+
   const handleChange = (e) => {
     setLocation(e.target.value);
   };
-  const subtotal = products.reduce(
-    (acc, product) => acc + product.price * product.quantity,
-    0
-  );
 
-  console.log("products: ");
+  console.log("products: ", products);
 
   const handleRemoveProduct = (product) => {
     dispatch(removeProduct({ id: product._id }));
@@ -32,6 +34,7 @@ const Invoice = ({ shippingValue, products, location, setLocation }) => {
 
       <div className="border-b border-black pb-2.5">
         {products?.map((product, idx) => {
+          console.log("Map product: ", product);
           return (
             <div
               key={idx}
@@ -40,7 +43,7 @@ const Invoice = ({ shippingValue, products, location, setLocation }) => {
               <div className="relative h-full w-[70px]   border bg-white border-colorBorder rounded-md  mr-5 my-2">
                 <div className="w-full overflow-hidden rounded-md ">
                   <Image
-                    src={product?.mainImage}
+                    src={product?.product.mainImage}
                     alt={product?.name}
                     height={70}
                     width={70}
@@ -51,10 +54,40 @@ const Invoice = ({ shippingValue, products, location, setLocation }) => {
                   {product.quantity}
                 </p>
               </div>
-              <div className="text-sm flex-1">
-                <p>{product?.name}</p>
+              <div className="flex-1 ">
+                <div className="flex justify-between items-center">
+                  <div className="text-sm flex-1 text-black">
+                    <p>{product?.product.name}</p>
+                  </div>
+                  <p className="text-sm">{product?.product.price}Tk</p>
+                </div>
+                <div>
+                  {product.product.colors ? (
+                    <p className="text-sm font-semibold flex items-center gap-1.5">
+                      Color :{" "}
+                      <img
+                        src={
+                          product.product.colors[product.product.selectedColor]
+                        }
+                        alt={"color"}
+                        className="w-7 h-4 "
+                      />
+                    </p>
+                  ) : null}
+                  {product.product.sizes.length > 1 ? (
+                    <p className="text-sm font-semibold">
+                      Size : {product.product.selectedSize}
+                    </p>
+                  ) : null}
+                </div>
+                <button
+                  onClick={() => dispatch(removeFromCart(product.product))}
+                  type="button"
+                  className="text-red-500 text-sm"
+                >
+                  Remove
+                </button>
               </div>
-              <p className="text-sm">{product?.price}Tk</p>
             </div>
           );
         })}

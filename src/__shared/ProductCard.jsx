@@ -12,7 +12,9 @@ const ProductCard = ({ img, name, price, sizes, productId }) => {
   };
   return (
     <div className="w-full cursor-pointer" onClick={handleOrderNowClick}>
-      <Image src={img} alt={name} width={800} height={800} />
+      <div className="lg:h-[446px]">
+        <Image src={img} alt={name} width={800} height={800} />
+      </div>
       <div className="space-y-3 pt-5">
         <h4 className="bold-f text-lg">{name}</h4>
         <div className="flex items-center justify-between ">
@@ -28,9 +30,12 @@ const ProductCard = ({ img, name, price, sizes, productId }) => {
             ))}
           </div>
         </div>
-        <button className="w-full py-2 rounded-full bg-primary text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75">
-          Buy Now
-        </button>
+
+        <div className="flex items-center justify-center">
+          <button className="w-3/4 flex justify-center items-center  py-2 rounded-full bg-primary text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75">
+            Buy Now
+          </button>
+        </div>
       </div>
     </div>
   );

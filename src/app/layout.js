@@ -32,7 +32,7 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <Head />
       <body
-        className={`${classDisplayVariable.variable} ${classDisplayRegular.variable}`}
+        className={`${classDisplayVariable.variable} ${classDisplayRegular.variable} w-full `}
       >
         <MetaPixel />
         <GlobalProvider>

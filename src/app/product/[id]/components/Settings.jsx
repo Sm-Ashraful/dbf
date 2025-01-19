@@ -7,39 +7,68 @@ import ProductDetailsTab from "./Tabs";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addProduct, clearProducts } from "@/store/slice/productSlice";
+import { addItemToCart, setIsOpen } from "@/store/slice/CheckoutSlice";
 
 export default function ProductDetails({ product }) {
   const [itemCount, setItemCount] = useState(1);
   const [sizeSelect, setSizeSelect] = useState("M");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const handleAddToCartItems = () => {
-    dispatch(clearProducts());
+  const subImageUrls = product?.subImages?.map((image) => image);
+  const allImageUrls = [product.mainImage, ...subImageUrls];
+
+  const handleBuyNow = () => {
     const cartProducts = {
       ...product,
+      selectedColor: currentImageIndex,
       selectedSize: sizeSelect,
       quantity: itemCount,
     };
-
-    console.log("Card products: ", cartProducts);
-    dispatch(addProduct(cartProducts));
+    dispatch(
+      addItemToCart({
+        product: cartProducts,
+        quantity: itemCount,
+        selectedColor: currentImageIndex,
+        selectedSize: sizeSelect,
+      })
+    );
     router.push("/checkout");
   };
   const handleCountChange = (count) => {
     setItemCount(count);
   };
 
-  const subImageUrls = product?.subImages?.map((image) => image);
-  const allImageUrls = [product.mainImage, ...subImageUrls];
+  const handleAddToCartItems = () => {
+    const cartProducts = {
+      ...product,
+      selectedColor: currentImageIndex,
+      selectedSize: sizeSelect,
+      quantity: itemCount,
+    };
+    dispatch(
+      addItemToCart({
+        product: cartProducts,
+        quantity: itemCount,
+        selectedColor: currentImageIndex,
+        selectedSize: sizeSelect,
+      })
+    );
+    dispatch(setIsOpen(true));
+  };
 
   return (
     <div className="relative overflow-x-hidden w-full">
       <div className="flex flex-col lg:flex-row  gap-[50px] lg:gap-[30px] pb-5">
         {/* left column start */}
         <div className="w-full md:w-auto flex-[1.2] max-w-[500px] lg:max-w-full mx-auto lg:mx-0">
-          <ProductDetailsCarousel imageUrls={allImageUrls} />
+          <ProductDetailsCarousel
+            imageUrls={allImageUrls}
+            setCurrentImageIndex={setCurrentImageIndex}
+            currentImageIndex={currentImageIndex}
+          />
         </div>
         {/* left column end */}
 
@@ -48,10 +77,13 @@ export default function ProductDetails({ product }) {
           <ProductInfo
             product={product}
             category={product?.category}
+            currentImageIndex={currentImageIndex}
+            setCurrentImageIndex={setCurrentImageIndex}
             itemCount={itemCount}
             onCountChange={handleCountChange}
             setSizeSelect={setSizeSelect}
             sizeSelect={sizeSelect}
+            handleBuyNow={handleBuyNow}
             handleAddToCartItems={handleAddToCartItems}
           />
 

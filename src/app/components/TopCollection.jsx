@@ -26,7 +26,7 @@ const TopCollection = () => {
         <h4 className="bold-f text-2xl a">Our Top Collections</h4>
         <p className="text-sm">Browse the collection of top products</p>
       </div>
-      <div className="grid gap-5  md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-10  md:grid-cols-2 xl:grid-cols-4">
         {products &&
           products?.map((product) => (
             <ProductCard
@@ -36,6 +36,7 @@ const TopCollection = () => {
               price={product.price}
               img={product.mainImage}
               sizes={sizes}
+              colors={product.colors}
             />
           ))}
       </div>

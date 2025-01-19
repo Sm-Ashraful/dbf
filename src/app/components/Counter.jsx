@@ -23,7 +23,7 @@ const Counter = ({ initialCount = 1, onCountChange }) => {
 
   return (
     <div className="flex gap-5 items-center">
-      <div className="flex items-center w-[120px] justify-around mt-3 bg-black/10 py-2 rounded-full">
+      <div className="flex items-center w-[120px] justify-around  bg-black/10 py-4 rounded-full">
         <button
           className={`text-xl font-bold px-3`}
           disabled={itemCount === 1}
